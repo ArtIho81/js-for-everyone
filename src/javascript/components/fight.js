@@ -22,6 +22,10 @@ export function getDamage(attacker, defender) {
     return damage > 0 ? damage : 0;
 }
 
+function getCriticalHitDamage(fighter) {
+    return 2 * fighter.attack;
+}
+
 export async function fight(firstFighter, secondFighter) {
     let firstFighterHealth = firstFighter.health;
     let secondFighterHealth = secondFighter.health;
@@ -35,7 +39,6 @@ export async function fight(firstFighter, secondFighter) {
 
     return new Promise(resolve => {
         // resolve the promise with the winner when fight is over
-
         let firstFighterBlock = false;
         let secondFighterBlock = false;
         const criticalHits = new Set();
@@ -92,12 +95,12 @@ export async function fight(firstFighter, secondFighter) {
             });
 
             if (isCriticalHitAviable(1, Date.now()) && !firstFighterBlock) {
-                secondFighterHealth -= 2 * firstFighter.attack;
+                secondFighterHealth -= getCriticalHitDamage(firstFighter);
                 secondFighterHealthIndicator.style.width = getHealth(secondFighterHealth, secondFighter?.health);
                 firstFigtherCriticalHitTime = Date.now();
             }
             if (isCriticalHitAviable(2, Date.now()) && !secondFighterBlock) {
-                firstFighterHealth -= 2 * secondFighter.attack;
+                firstFighterHealth -= getCriticalHitDamage(secondFighter);
                 firstFighterHealthIndicator.style.width = getHealth(firstFighterHealth, firstFighter?.health);
                 secondFigtherCriticalHitTime = Date.now();
             }

@@ -23,15 +23,32 @@ export function createFighterPreview(fighter, position) {
     });
     // todo: show fighter info (image, name, health, etc.)
     if (fighter) {
-        const { name, health, attack, defense, source } = fighter;
+        const { name, source } = fighter;
+        const nameElement = createElement({
+            tagName: 'h2',
+            className: 'fighter-preview__name'
+        });
+        nameElement.innerHTML = `${name}`;
         const infoElement = createElement({
-            tagName: 'p',
-            className: ''
+            tagName: 'div',
+            className: 'fighter-preview___info'
+        });
+        Object.entries(fighter).map(prop => {
+            const [key, value] = prop;
+            if (key === 'health' || key === 'attack' || key === 'defense') {
+                const data = createElement({
+                    tagName: 'p',
+                    className: 'fighter-preview__prop'
+                });
+                data.innerHTML = `${key}: ${value}`;
+                infoElement.appendChild(data);
+            }
+            return null;
         });
         const imgElement = createFighterImage({ name, source });
-        infoElement.innerHTML = `health: ${health} attack: ${attack} defense: ${defense}`;
-        fighterElement.appendChild(infoElement);
+        fighterElement.appendChild(nameElement);
         fighterElement.appendChild(imgElement);
+        fighterElement.appendChild(infoElement);
     }
 
     return fighterElement;
