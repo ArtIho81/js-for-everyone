@@ -34,8 +34,8 @@ export async function fight(firstFighter, secondFighter) {
     const criticalHitCombinations = controls.PlayerOneCriticalHitCombination.concat(
         controls.PlayerTwoCriticalHitCombination
     );
-    let firstFigtherCriticalHitTime = Date.now();
-    let secondFigtherCriticalHitTime = Date.now();
+    let firstFigtherCriticalHitTime = 0; // Date.now();
+    let secondFigtherCriticalHitTime = 0; // Date.now();
 
     return new Promise(resolve => {
         // resolve the promise with the winner when fight is over
@@ -94,12 +94,14 @@ export async function fight(firstFighter, secondFighter) {
                 }
             });
 
-            if (isCriticalHitAviable(1, Date.now()) && !firstFighterBlock) {
+            if (isCriticalHitAviable(1, Date.now())) {
+                // && !firstFighterBlock) {
                 secondFighterHealth -= getCriticalHitDamage(firstFighter);
                 secondFighterHealthIndicator.style.width = getHealth(secondFighterHealth, secondFighter?.health);
                 firstFigtherCriticalHitTime = Date.now();
             }
-            if (isCriticalHitAviable(2, Date.now()) && !secondFighterBlock) {
+            if (isCriticalHitAviable(2, Date.now())) {
+                // && !secondFighterBlock) {
                 firstFighterHealth -= getCriticalHitDamage(secondFighter);
                 firstFighterHealthIndicator.style.width = getHealth(firstFighterHealth, firstFighter?.health);
                 secondFigtherCriticalHitTime = Date.now();
